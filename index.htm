@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="29b40sSgbw7p_YTsDBPyuXKxy5jeC627vA_r67djk-I" />
+    <title>ROBOTPRAGMA AUTO-MATIC V1</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        #matrixCanvas {
+            z-index: -1;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            color: #21cae0;
+        }
+
+        .form-container img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-field,
+        .select-field {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #00f7ff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .progress-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            padding: 10px;
+            background-color: #036e57;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: repeating-linear-gradient(45deg, #00ffdd, #01364e 10px, transparent 10px, transparent 20px);
+            background-size: 28px 28px; /* Sesuaikan ukuran garis strip sesuai keinginan */
+            animation: progressAnimation 2s linear infinite;
+        }
+
+        .progress-text {
+            color: #00b7ff;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .progress-info {
+            color: #01407a;
+            font-size: 14px;
+        }
+
+        @keyframes progressAnimation {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 28px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+
+    <div class="form-container">
+        <img src="https://i.ibb.co/VCVm8yJ/ROBOTPRAGMA.webp" alt="Robopragma Image">
+        <h2>ROBOTPRAGMA AUTO-MATIC V1</h2>
+        <form id="submitForm" action="#" method="POST">
+            <label for="username">Nama Alias:</label>
+            <input type="text" id="username" name="username" class="input-field" required>
+            <br>
+            <label for="selectOption">Fitur Pilihan:</label>
+            <select id="selectOption" name="selectOption" class="select-field" required>
+                <option value="auto_sensasional">JP x500 Auto</option>
+                <option value="auto_sensasional">Scatters Auto</option>
+                <option value="auto_scatter">Freespins Auto</option>
+                <option value="auto_scatter">Paylines Auto</option>
+            </select>
+            <br>
+            <label for="selectOption">Pilih Server:</label>
+            <select id="pilihan" name="selectOption" class="select-field" required>
+                <option value="1">Server Thailand</option>
+                <option value="2">Server Luar</option>
+                <option value="3">Server Kamboja</option>
+                <option value="4">Server Rusia</option>
+                <option value="5">Server Hongkong</option>
+                <option value="6">Server italy 146</option>
+                <option value="7">Server Luar Negeri WR Max</option>
+                <option value="8">Server Internasional</option>
+                <option value="9">Server Vietnam</option>
+             </select>
+             <br>
+            <button type="submit" id="submitButton" class="submit-btn">MASUK</button>
+        </form>
+
+        <div id="progressContainer" class="progress-container">
+            <div class="progress-text" id="progressText">Inject Start...</div>
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-info" id="progressInfo">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrixChars = "Robot Canggih Pencari Pola";
+        const charsArray = matrixChars.split("");
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#0F0";
+            ctx.font = `${fontSize}px arial`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = charsArray[Math.floor(Math.random() * charsArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+
+                drops[i]++;
+            }
+        }
+
+        function updateMatrix() {
+            drawMatrix();
+            requestAnimationFrame(updateMatrix);
+        }
+
+        updateMatrix();
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            updateMatrix();
+        });
+
+        const submitForm = document.getElementById('submitForm');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressText = document.getElementById('progressText');
+        const progressInfo = document.getElementById('progressInfo');
+
+        submitForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Simulasi proses pengiriman formulir
+            submitForm.style.display = 'none';
+            progressContainer.style.display = 'block';
+
+            let progress = 0;
+            const username = document.getElementById('username').value;
+
+            function simulateProgress() {
+                if (progress < 100) {
+                    progress += 1;
+                    progressBar.style.width = `${progress}%`;
+                    progressInfo.textContent = `${progress}%`;
+
+                    // Update teks progress secara acak
+                    let progressTextContent = "";
+                    if (progress < 25) {
+                        progressTextContent = "Redirecting Server...";
+                    } else if (progress < 40) {
+                        progressTextContent = "Sedang Melakukan Proses...";
+                    } else if (progress < 25) {
+                        progressTextContent = `Injeksi Kode Pada User ${username}...`;
+                    } else {
+                        progressTextContent = "Infiltrasi Database...";
+                    }
+                    progressText.textContent = progressTextContent;
+
+                    setTimeout(simulateProgress, 100);
+                } else {
+                    // Jika progres selesai, tampilkan teks selesai dan lakukan loading sebelum redirect
+                    progressText.textContent = "Success Injection Username";
+                    simulateLoading();
+                }
+            }
+
+            function simulateLoading() {
+                progressText.textContent = "Injection Success, Redirecting To The Platform...";
+                let loadingProgress = 0;
+
+                function updateLoading() {
+                    if (loadingProgress < 100) {
+                        loadingProgress += 1;
+                        progressBar.style.width = `${loadingProgress}%`;
+                        progressInfo.textContent = `${loadingProgress}%`;
+                        setTimeout(updateLoading, 50);
+                    } else {
+                        // Setelah loading selesai, redirect ke halaman tujuan
+                        window.location.href = 'https://cutt.ly/jw6RHZ6n';
+                    }
+                }
+
+                updateLoading();
+            }
+
+            simulateProgress();
+        });
+    </script>
+</body>
+</html>
