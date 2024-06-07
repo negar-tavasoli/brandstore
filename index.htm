@@ -1,273 +1,91 @@
 
 <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="29b40sSgbw7p_YTsDBPyuXKxy5jeC627vA_r67djk-I" />
-    <title>ROBOTPRAGMA AUTO-MATIC V1</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        canvas {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-        }
-
-        #matrixCanvas {
-            z-index: -1;
-        }
-
-        .form-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            color: #21cae0;
-        }
-
-        .form-container img {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .input-field,
-        .select-field {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-        }
-
-        .submit-btn {
-            padding: 10px 20px;
-            background-color: #00f7ff;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .progress-container {
-            display: none;
-            margin-top: 20px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            padding: 10px;
-            background-color: #036e57;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: not-allowed;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background: repeating-linear-gradient(45deg, #00ffdd, #01364e 10px, transparent 10px, transparent 20px);
-            background-size: 28px 28px; /* Sesuaikan ukuran garis strip sesuai keinginan */
-            animation: progressAnimation 2s linear infinite;
-        }
-
-        .progress-text {
-            color: #00b7ff;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .progress-info {
-            color: #01407a;
-            font-size: 14px;
-        }
-
-        @keyframes progressAnimation {
-            0% {
-                background-position: 0 0;
-            }
-            100% {
-                background-position: 28px 0;
-            }
-        }
-    </style>
-</head>
-<body>
-    <canvas id="matrixCanvas"></canvas>
-
-    <div class="form-container">
-        <img src="https://i.ibb.co/VCVm8yJ/ROBOTPRAGMA.webp" alt="Robopragma Image">
-        <h2>ROBOTPRAGMA AUTO-MATIC V1</h2>
-        <form id="submitForm" action="#" method="POST">
-            <label for="username">Nama Alias:</label>
-            <input type="text" id="username" name="username" class="input-field" required>
-            <br>
-            <label for="selectOption">Fitur Pilihan:</label>
-            <select id="selectOption" name="selectOption" class="select-field" required>
-                <option value="auto_sensasional">JP x500 Auto</option>
-                <option value="auto_sensasional">Scatters Auto</option>
-                <option value="auto_scatter">Freespins Auto</option>
-                <option value="auto_scatter">Paylines Auto</option>
-            </select>
-            <br>
-            <label for="selectOption">Pilih Server:</label>
-            <select id="pilihan" name="selectOption" class="select-field" required>
-                <option value="1">Server Thailand</option>
-                <option value="2">Server Luar</option>
-                <option value="3">Server Kamboja</option>
-                <option value="4">Server Rusia</option>
-                <option value="5">Server Hongkong</option>
-                <option value="6">Server italy 146</option>
-                <option value="7">Server Luar Negeri WR Max</option>
-                <option value="8">Server Internasional</option>
-                <option value="9">Server Vietnam</option>
-             </select>
-             <br>
-            <button type="submit" id="submitButton" class="submit-btn">MASUK</button>
-        </form>
-
-        <div id="progressContainer" class="progress-container">
-            <div class="progress-text" id="progressText">Inject Start...</div>
-            <div class="progress-bar" id="progressBar">
-                <div class="progress-info" id="progressInfo">0%</div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const canvas = document.getElementById('matrixCanvas');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const matrixChars = "Robot Canggih Pencari Pola";
-        const charsArray = matrixChars.split("");
-
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-
-        const drops = [];
-        for (let i = 0; i < columns; i++) {
-            drops[i] = 1;
-        }
-
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = "#0F0";
-            ctx.font = `${fontSize}px arial`;
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = charsArray[Math.floor(Math.random() * charsArray.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-
-                drops[i]++;
-            }
-        }
-
-        function updateMatrix() {
-            drawMatrix();
-            requestAnimationFrame(updateMatrix);
-        }
-
-        updateMatrix();
-
-        window.addEventListener("resize", () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            updateMatrix();
-        });
-
-        const submitForm = document.getElementById('submitForm');
-        const progressBar = document.getElementById('progressBar');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressText = document.getElementById('progressText');
-        const progressInfo = document.getElementById('progressInfo');
-
-        submitForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            // Simulasi proses pengiriman formulir
-            submitForm.style.display = 'none';
-            progressContainer.style.display = 'block';
-
-            let progress = 0;
-            const username = document.getElementById('username').value;
-
-            function simulateProgress() {
-                if (progress < 100) {
-                    progress += 1;
-                    progressBar.style.width = `${progress}%`;
-                    progressInfo.textContent = `${progress}%`;
-
-                    // Update teks progress secara acak
-                    let progressTextContent = "";
-                    if (progress < 25) {
-                        progressTextContent = "Redirecting Server...";
-                    } else if (progress < 40) {
-                        progressTextContent = "Sedang Melakukan Proses...";
-                    } else if (progress < 25) {
-                        progressTextContent = `Injeksi Kode Pada User ${username}...`;
-                    } else {
-                        progressTextContent = "Infiltrasi Database...";
-                    }
-                    progressText.textContent = progressTextContent;
-
-                    setTimeout(simulateProgress, 100);
-                } else {
-                    // Jika progres selesai, tampilkan teks selesai dan lakukan loading sebelum redirect
-                    progressText.textContent = "Success Injection Username";
-                    simulateLoading();
-                }
-            }
-
-            function simulateLoading() {
-                progressText.textContent = "Injection Success, Redirecting To The Platform...";
-                let loadingProgress = 0;
-
-                function updateLoading() {
-                    if (loadingProgress < 100) {
-                        loadingProgress += 1;
-                        progressBar.style.width = `${loadingProgress}%`;
-                        progressInfo.textContent = `${loadingProgress}%`;
-                        setTimeout(updateLoading, 50);
-                    } else {
-                        // Setelah loading selesai, redirect ke halaman tujuan
-                        window.location.href = 'https://cutt.ly/jw6RHZ6n';
-                    }
-                }
-
-                updateLoading();
-            }
-
-            simulateProgress();
-        });
-    </script>
-</body>
-</html>
+<html amp lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,maximum-scale=1">
+        <meta http-equiv="content-language" content="id">
+        <title>AMANAHTOTO SITUS RTP SLOT ONLINE RESMI 2024</title>
+        <meta name="description" content="AMANAHTOTO atau AMANAHTOTO 303 merupakan  SLOT Online terbaik hari ini yang mempunyai beragam permainan slot Gacorresmi, terpercaya, terbaru, dan terbaik untuk para slottergacor untuk semua permainannya">
+        <meta name="keywords" content="AMANAHTOTO, rtp gacor, rtp slot, daftar AMANAHTOTO, link alternatif AMANAHTOTO, situs gacor, situs rtp slot, AMANAHTOTO rtp slot">
+        <meta name="robots" content="index, follow">
+        <meta name="page-locale" content="id,en">
+        <meta content="true" name="HandheldFriendly">
+        <meta content="width" name="MobileOptimized">
+        <meta property="og:title" content="AMANAHTOTO SITUS RTP SLOT ONLINE RESMI 2024">
+        <meta property="og:description" content="AMANAHTOTO atau AMANAHTOTO 303 merupakan  SLOT Online terbaik hari ini yang mempunyai beragam permainan slot Gacorresmi, terpercaya, terbaru, dan terbaik untuk para slottergacor untuk semua permainannya">
+        <meta property="og:url" content="https://amanahtotovip.com/">
+        <meta property="og:site_name" content="AMANAHTOTO">
+        <meta property="og:author" content="AMANAHTOTO">
+        <meta property="og:image" content="https://boris1293100.com/img/amanahabnner.jpg">
+        <meta name="og:locale" content="ID_id">
+        <meta name="og:type" content="website">
+        <meta name="rating" content="general">
+        <meta name="author" content="AMANAHTOTO">
+        <meta name="distribution" content="global">
+        <meta name="publisher" content="AMANAHTOTO">
+        <script async src="https://cdn.ampproject.org/v0.js" nonce="MzIxODQzMTEzMSw5NDE3MTg1MTY="></script>
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="https://iili.io/JCBJz92.png" type="image/x-icon">
+        <link rel="canonical" href="https://amanahtotovip.com/">
+        <link rel="amphtml" href="https://pub-4feaf9a67a9e44dfad21af6f3939c87c.r2.dev/amanahtoto.github.html">
+        <style amp-boilerplate>
+        body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}
+        @-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}
+        @-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}
+        @-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}
+        @keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}
+        </style>
+        <noscript>
+            <style amp-boilerplate>
+            body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}
+            </style>
+            </noscript>
+            <style amp-custom>*{box-sizing:border-box;margin:0;padding:0}:focus{outline:0}::-webkit-scrollbar{display:none}a,a:after,a:hover,a:visited{text-decoration:none;color:#fff}html{max-width:500px;margin:0 auto;background-color:#000;background-image:url(https://itadoriyuji.xyz/img/laku.gif)}
+            body{color:#fff;font-family:'Noto Sans',arial,sans-serif}
+            .SLOTOVO{display:grid;min-height:100vh}
+            .toto-togel{margin:auto;text-align:center}
+            .situs-togel{display:inline-grid;margin:.88rem 0}
+            .situs-togel .contole{padding:.5rem 3.8rem;background:#33333388;margin-bottom:.5rem;border-radius:.38rem;box-shadow:0 -1px #ccb38a88;letter-spacing:1px}
+            .situs-togel a.btn1{color:#eee;background-image:linear-gradient(-45deg,#fdd007 0,#c29006 100%);box-shadow:none;font-weight:700}
+            .imghero{box-shadow:inset 0 0 0 8px #888;border-radius:8px}
+            .situs-toto-container{display:flex;background:linear-gradient(-45deg,#fdd007 0,#c29006 100%);width:250px;height:40px;align-items:center;justify-content:space-around;border-radius:10px}
+            .situs-toto{outline:0;border:0;width:40px;height:40px;border-radius:50%;background-color:transparent;display:flex;align-items:center;justify-content:center;color:#fff;transition:all ease-in-out .3s;cursor:pointer}
+            .situs-toto:hover{transform:translateY(-3px)}   
+            .icon{font-size:20px}
+            .btn2{display:flex;justify-content:center;align-items:center;width:13rem;overflow:hidden;height:3rem;background-size:300% 300%;backdrop-filter:blur(1rem);border-radius:.38rem;transition:.5s;animation:gradient_301 5s ease infinite;border:double 4px transparent;background-image:linear-gradient(#212121,#212121),linear-gradient(137.48deg,#ffdb3b 10%,#fe53bb 45%,#8f51ea 67%,#04f 87%);background-origin:border-box;background-clip:content-box,border-box}#container-stars{position:absolute;z-index:-1;width:100%;height:100%;overflow:hidden;transition:.5s;backdrop-filter:blur(1rem);border-radius:.38rem}strong{z-index:2;letter-spacing:5px;color:#fff;text-shadow:#fff}#glow{position:absolute;display:flex;width:12rem}.circle{width:100%;height:30px;filter:blur(2rem);animation:pulse_3011 4s infinite;z-index:-1}.circle:nth-of-type(1){background:rgba(254,83,186,.636)}
+            .circle:nth-of-type(2){background:rgba(142,81,234,.704)}
+            .btn2:hover #container-stars{z-index:1;background-color:#212121}
+            .btn2:hover{transform:scale(1.1)}
+            .btn2:active{border:double 4px #fe53bb;background-origin:border-box;background-clip:content-box,border-box;animation:none}
+            .btn2:active .circle{background:#fe53bb}#stars{position:relative;background:0 0;width:200rem;height:200rem}#stars::after{content:"";position:absolute;top:-10rem;left:-100rem;width:100%;height:100%;animation:animStarRotate 90s linear infinite}#stars::after{background-image:radial-gradient(#fff 1px,transparent 1%);background-size:50px 50px}#stars::before{content:"";position:absolute;top:0;left:-50%;width:170%;height:500%;animation:animStar 60s linear infinite}#stars::before{background-image:radial-gradient(#fff 1px,transparent 1%);background-size:50px 50px;opacity:.5}
+            @keyframes animStar{from{transform:translateY(0)}to{transform:translateY(-135rem)}}
+            @keyframes animStarRotate{from{transform:rotate(360deg)}to{transform:rotate(0)}}
+            @keyframes gradient_301{0%{background-position:0 50%}50%{background-position:100% 50%}100%{background-position:0 50%}}
+            @keyframes pulse_3011{0%{transform:scale(.75);box-shadow:0 0 0 0 rgba(0,0,0,.7)}70%{transform:scale(1);box-shadow:0 0 0 10px transparent}100%{transform:scale(.75);box-shadow:0 0 0 0 transparent}}</style>
+        </head>
+        <body>
+            <main>
+                <div class="SLOTOVO">
+                    <div class="toto-togel"><a href="https://cutt.ly/jw6RHZ6n">
+                        
+                        <br>
+                        <div><a href="https://cutt.ly/jw6RHZ6n" target="_blank" rel="noopener noreferrer nofollow">
+                            <amp-img style="border-radius:10px" height="250" width="250" alt="AKUN VIP" src="https://i.ibb.co/xsRXWtn/AMANAHTOTO-CAP-AYAM.jpg"></amp-img></a>
+                        </div>
+                            <div class="situs-togel"><a href="https://cutt.ly/jw6RHZ6n" target="_blank" rel="noopener noreferrer nofollow">
+                                <button class="btn2"><strong>AKUN VIP</strong>
+                                <div id="container-stars"><div id="stars"></div></div>
+                                <div id="glow"><div class="circle"></div><div class="circle"></div></div>
+                            </button></a><br>
+                            <a href="https://cutt.ly/jw6RHZ6n" target="_blank" rel="noopener noreferrer nofollow" class="btn1 contole">LOGIN</a>
+                            <a href="https://cutt.ly/jw6RHZ6n" target="_blank" rel="noopener noreferrer nofollow" class="btn1 contole">DAFTAR</a>
+                        </div>
+                </div>
+                <p style="text-align:center">AMANAHTOTO SITUS RTP SLOT ONLINE GAMPANG MENANG 2024</p>
+                <span style="text-align:center">&copy; 2023 AMANAHTOTO All Rights Reserved</span>
+                </div>
+                </main>
+                </body>
+                    </html>
